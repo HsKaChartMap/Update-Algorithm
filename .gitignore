@@ -1,5 +1,55 @@
-tmp/*
-config/database.php
-app/tmp/*
-app/config/database.php
-!empty
+<?php
+
+function isOlder($fName, $fLifeTime) {
+
+   $CreationTime = filectime($fName);
+   $CreationTimeInDays = ($CreationTime/(24*60*60));
+
+   $CurrentTime = time();
+   $CurrentTimeInDays = ($CurrentTime/(24*60*60));
+
+   $fLifeTimeSec = $fLifeTime * 24 *60 * 60;
+   
+   $fAgeSec = $CreationTime + $fLifeTimeSec;
+   $fAgeInDays = ($fAgeSec/(24 *60 * 60));
+
+   if (file_exists($fName)) {
+       echo "CreationTime: ".$CreationTime;
+       echo "<pre>";
+     
+       echo "CreationTime in Days: ".$CreationTimeInDays;
+       echo "<pre>";
+       
+	   echo "CurrentTime: ".$CurrentTime;
+       echo "<pre>";
+       
+	   echo "CurrentTime in Days: ".$CurrentTimeInDays;
+	   echo "<pre>";
+       
+	   echo "after ".($fLifeTime)." Days from Creation: ".$fAgeInDays;
+	   echo "<pre>";
+
+   if ($CurrentTime > $fAgeSec) {
+       echo "the file is older than ". $fLifeTime. " days";
+       return TRUE;
+      } else {
+	  echo "the file has not reached ". $fLifeTime." days yet";  
+	  return FALSE;
+	  }
+   } 
+}
+
+$flag = isOlder('JSONFormate.json', 14);
+
+if(!$flag) {
+   echo "<pre>";
+   echo "not old";
+   echo "...".$flag;
+   } else {
+       echo "<pre>";
+       echo "old";
+       echo "...".$flag;
+   }
+
+?> 
+
